@@ -21,6 +21,7 @@ package org.apache.pulsar.functions.runtime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.util.JsonFormat;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -459,7 +460,7 @@ public class RuntimeUtils {
         conn.setRequestMethod("GET");
         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
-        while ((line = rd.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(rd, 5_000_000)) != null) {
             result.append(line + System.lineSeparator());
         }
         rd.close();
