@@ -19,6 +19,8 @@
 package org.apache.pulsar.broker.authentication.utils;
 
 import com.google.common.io.ByteStreams;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -108,7 +110,7 @@ public class AuthTokenUtils {
     public static byte[] readKeyFromUrl(String keyConfUrl) throws IOException {
         if (keyConfUrl.startsWith("data:") || keyConfUrl.startsWith("file:")) {
             try {
-                return ByteStreams.toByteArray((InputStream) new URL(keyConfUrl).getContent());
+                return ByteStreams.toByteArray((InputStream) Urls.create(keyConfUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getContent());
             } catch (Exception e) {
                 throw new IOException(e);
             }
