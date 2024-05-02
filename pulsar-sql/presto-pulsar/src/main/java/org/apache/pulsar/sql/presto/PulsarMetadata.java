@@ -171,7 +171,7 @@ public class PulsarMetadata implements ConnectorMetadata {
         if (schemaName.isPresent()) {
             String schemaNameOrNull = schemaName.get();
 
-            if (schemaNameOrNull.equals(INFORMATION_SCHEMA)) {
+            if (INFORMATION_SCHEMA.equals(schemaNameOrNull)) {
                 // no-op for now but add pulsar connector specific system tables here
             } else {
                 List<String> pulsarTopicList = null;

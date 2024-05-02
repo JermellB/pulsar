@@ -94,7 +94,7 @@ public class ValidatorUtils {
     public static void validateSerde(String inputSerializer, Class<?> typeArg, ClassLoader clsLoader,
                                      boolean deser) {
         if (isEmpty(inputSerializer)) return;
-        if (inputSerializer.equals(DEFAULT_SERDE)) return;
+        if (DEFAULT_SERDE.equals(inputSerializer)) return;
         try {
             Class<?> serdeClass = ClassLoaderUtils.loadClass(inputSerializer, clsLoader);
         } catch (ClassNotFoundException | NoClassDefFoundError e) {

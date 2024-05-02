@@ -279,7 +279,7 @@ public class ElasticSearchConfig implements Serializable {
             if (indexName.startsWith("-") || indexName.startsWith("_") || indexName.startsWith("+")) {
                 throw new IllegalArgumentException("indexName start with an invalid character.");
             }
-            if (indexName.equals(".") || indexName.equals("..")) {
+            if (".".equals(indexName) || "..".equals(indexName)) {
                 throw new IllegalArgumentException("indexName cannot be . or ..");            }
             if (indexName.getBytes(StandardCharsets.UTF_8).length > 255) {
                 throw new IllegalArgumentException("indexName cannot be longer than 255 bytes.");
