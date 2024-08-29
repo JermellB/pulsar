@@ -250,7 +250,8 @@ flexible messaging model and an intuitive client API.</description>
 
     <!-- Used to configure rename.netty.native. Libs -->
     <rename.netty.native.libs>rename-netty-native-libs.sh</rename.netty.native.libs>
-  </properties>
+  <versions.java-security-toolkit>1.2.0</versions.java-security-toolkit>
+ </properties>
 
   <dependencyManagement>
     <dependencies>
@@ -1190,8 +1191,12 @@ flexible messaging model and an intuitive client API.</description>
         <artifactId>okio</artifactId>
         <version>${okio.version}</version>
       </dependency>
-
-    </dependencies>
+   <dependency>
+    <groupId>io.github.pixee</groupId>
+    <artifactId>java-security-toolkit</artifactId>
+    <version>${versions.java-security-toolkit}</version>
+   </dependency>
+  </dependencies>
   </dependencyManagement>
 
   <dependencies>
