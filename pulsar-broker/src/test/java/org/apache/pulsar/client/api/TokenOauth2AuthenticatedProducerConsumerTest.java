@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.api;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.mockito.Mockito.spy;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -96,7 +98,7 @@ public class TokenOauth2AuthenticatedProducerConsumerTest extends ProducerConsum
         // AuthenticationOAuth2
         Authentication authentication = AuthenticationFactoryOAuth2.clientCredentials(
                 new URL("https://dev-kt-aa9ne.us.auth0.com"),
-                new URL("file://" + path.toString()),  // key file path
+                Urls.create("file://" + path.toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS),  // key file path
                 "https://dev-kt-aa9ne.us.auth0.com/api/v2/"
         );
 

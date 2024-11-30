@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.loadbalance;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.broker.cache.ConfigurationCacheService.POLICIES;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -139,7 +141,7 @@ public class LoadBalancerTest {
             brokerWebServicePorts[i] = pulsarServices[i].getListenPortHTTP().get();
             brokerNativeBrokerPorts[i] = pulsarServices[i].getBrokerListenPort().get();
 
-            brokerUrls[i] = new URL("http://127.0.0.1" + ":" + brokerWebServicePorts[i]);
+            brokerUrls[i] = Urls.create("http://127.0.0.1" + ":" + brokerWebServicePorts[i], Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             lookupAddresses[i] = pulsarServices[i].getAdvertisedAddress() + ":" + pulsarServices[i].getListenPortHTTP().get();
             pulsarAdmins[i] = PulsarAdmin.builder().serviceHttpUrl(brokerUrls[i].toString()).build();
         }

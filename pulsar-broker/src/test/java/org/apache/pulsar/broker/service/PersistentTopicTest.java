@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.service;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest.createMockBookKeeper;
 import static org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest.createMockZooKeeper;
 import static org.apache.pulsar.broker.cache.ConfigurationCacheService.POLICIES;
@@ -1765,8 +1767,7 @@ public class PersistentTopicTest extends MockedBookKeeperTestCase {
         String remoteReplicatorName = topic.getReplicatorPrefix() + "." + remoteCluster;
         ConcurrentOpenHashMap<String, Replicator> replicatorMap = topic.getReplicators();
 
-        final URL brokerUrl = new URL(
-                "http://" + pulsar.getAdvertisedAddress() + ":" + pulsar.getConfiguration().getBrokerServicePort().get());
+        final URL brokerUrl = Urls.create("http://" + pulsar.getAdvertisedAddress() + ":" + pulsar.getConfiguration().getBrokerServicePort().get(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         @Cleanup
         PulsarClient client = PulsarClient.builder().serviceUrl(brokerUrl.toString()).build();
         ManagedCursor cursor = mock(ManagedCursorImpl.class);
@@ -1807,8 +1808,7 @@ public class PersistentTopicTest extends MockedBookKeeperTestCase {
 
         PersistentTopic topic = new PersistentTopic(globalTopicName, ledgerMock, brokerService);
 
-        final URL brokerUrl = new URL(
-                "http://" + pulsar.getAdvertisedAddress() + ":" + pulsar.getConfiguration().getBrokerServicePort().get());
+        final URL brokerUrl = Urls.create("http://" + pulsar.getAdvertisedAddress() + ":" + pulsar.getConfiguration().getBrokerServicePort().get(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         @Cleanup
         PulsarClient client = spy(PulsarClient.builder().serviceUrl(brokerUrl.toString()).build());
         PulsarClientImpl clientImpl = (PulsarClientImpl) client;

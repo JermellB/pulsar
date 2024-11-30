@@ -19,6 +19,8 @@
 package org.apache.pulsar.broker.admin;
 
 import com.google.common.collect.Sets;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest;
 import org.apache.pulsar.client.admin.PulsarAdminException;
@@ -73,7 +75,7 @@ public class AdminApiHealthCheckTest extends MockedPulsarServiceBaseTest {
 
     @Test
     public void testHealthCheckupV2() throws Exception {
-        final URL pulsarWebAddress = new URL(pulsar.getWebServiceAddress());
+        final URL pulsarWebAddress = Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         final String targetNameSpace = "pulsar/" +
                 pulsarWebAddress.getHost() + ":" + pulsarWebAddress.getPort();
         log.info("Target namespace for broker admin healthcheck V2 endpoint is {}", targetNameSpace);

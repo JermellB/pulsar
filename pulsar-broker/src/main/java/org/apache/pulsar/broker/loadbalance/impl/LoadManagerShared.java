@@ -19,6 +19,8 @@
 package org.apache.pulsar.broker.loadbalance.impl;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.broker.cache.LocalZooKeeperCacheService.LOCAL_POLICIES_ROOT;
 import static org.apache.pulsar.broker.web.PulsarWebResource.joinPath;
 import static org.apache.pulsar.common.stats.JvmMetrics.getJvmDirectMemoryUsed;
@@ -110,7 +112,7 @@ public class LoadManagerShared {
             final String brokerUrlString = String.format("http://%s", broker);
             URL brokerUrl;
             try {
-                brokerUrl = new URL(brokerUrlString);
+                brokerUrl = Urls.create(brokerUrlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             } catch (MalformedURLException e) {
                 LOG.error("Unable to parse brokerUrl from ResourceUnitId", e);
                 continue;

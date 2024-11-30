@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.service;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -104,7 +106,7 @@ public class BacklogQuotaManagerTest {
             pulsar = new PulsarService(config);
             pulsar.start();
 
-            adminUrl = new URL("http://127.0.0.1" + ":" + pulsar.getListenPortHTTP().get());
+            adminUrl = Urls.create("http://127.0.0.1" + ":" + pulsar.getListenPortHTTP().get(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             admin = PulsarAdmin.builder().serviceHttpUrl(adminUrl.toString()).build();
 
             admin.clusters().createCluster("usc", ClusterData.builder().serviceUrl(adminUrl.toString()).build());

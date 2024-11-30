@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.auth;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -264,8 +266,8 @@ public abstract class MockedPulsarServiceBaseTest extends TestRetrySupport {
         }
         this.pulsar = startBroker(conf);
 
-        brokerUrl = pulsar.getWebServiceAddress() != null ? new URL(pulsar.getWebServiceAddress()) : null;
-        brokerUrlTls = pulsar.getWebServiceAddressTls() != null ? new URL(pulsar.getWebServiceAddressTls()) : null;
+        brokerUrl = pulsar.getWebServiceAddress() != null ? Urls.create(pulsar.getWebServiceAddress(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS) : null;
+        brokerUrlTls = pulsar.getWebServiceAddressTls() != null ? Urls.create(pulsar.getWebServiceAddressTls(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS) : null;
 
         if (admin != null) {
             admin.close();

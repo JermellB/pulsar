@@ -20,6 +20,8 @@ package org.apache.pulsar.broker.namespace;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -283,7 +285,7 @@ public class NamespaceService implements AutoCloseable {
                     LookupData lookupData = lookupResult.get().getLookupData();
                     final String redirectUrl = options.isRequestHttps()
                             ? lookupData.getHttpUrlTls() : lookupData.getHttpUrl();
-                    return Optional.of(new URL(redirectUrl));
+                    return Optional.of(Urls.create(redirectUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
                 } catch (Exception e) {
                     // just log the exception, nothing else to do
                     LOG.warn("internalGetWebServiceUrl [{}]", e.getMessage(), e);

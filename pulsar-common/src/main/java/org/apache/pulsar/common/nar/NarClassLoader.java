@@ -23,6 +23,8 @@
  */
 package org.apache.pulsar.common.nar;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -194,11 +196,11 @@ public class NarClassLoader extends URLClassLoader {
 
         for (String jar : additionalJars) {
             if (jar.startsWith("/")) {
-                addURL(new URL("file://" + jar));
+                addURL(Urls.create("file://" + jar, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
             } else {
                 Path currentRelativePath = Paths.get("");
                 String cwd = currentRelativePath.toAbsolutePath().toString();
-                addURL(new URL("file://" + cwd + "/" + jar));
+                addURL(Urls.create("file://" + cwd + "/" + jar, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
             }
         }
 

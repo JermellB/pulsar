@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.pulsar.common.naming.NamespaceName.SYSTEM_NAMESPACE;
 import static org.apache.pulsar.common.naming.TopicName.TRANSACTION_COORDINATOR_ASSIGN;
 import com.beust.jcommander.Parameter;
@@ -298,8 +300,7 @@ public class PulsarStandalone implements AutoCloseable {
         final String cluster = config.getClusterName();
 
         if (!config.isTlsEnabled()) {
-            URL webServiceUrl = new URL(
-                    String.format("http://%s:%d", config.getAdvertisedAddress(), config.getWebServicePort().get()));
+            URL webServiceUrl = Urls.create(String.format("http://%s:%d", config.getAdvertisedAddress(), config.getWebServicePort().get()), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             String brokerServiceUrl = String.format("pulsar://%s:%d", config.getAdvertisedAddress(),
                     config.getBrokerServicePort().get());
             admin = PulsarAdmin.builder().serviceHttpUrl(
@@ -312,8 +313,7 @@ public class PulsarStandalone implements AutoCloseable {
                     .build();
             createSampleNameSpace(clusterData, cluster);
         } else {
-            URL webServiceUrlTls = new URL(
-                    String.format("https://%s:%d", config.getAdvertisedAddress(), config.getWebServicePortTls().get()));
+            URL webServiceUrlTls = Urls.create(String.format("https://%s:%d", config.getAdvertisedAddress(), config.getWebServicePortTls().get()), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             String brokerServiceUrlTls = String.format("pulsar+ssl://%s:%d", config.getAdvertisedAddress(),
                     config.getBrokerServicePortTls().get());
             PulsarAdminBuilder builder = PulsarAdmin.builder()
