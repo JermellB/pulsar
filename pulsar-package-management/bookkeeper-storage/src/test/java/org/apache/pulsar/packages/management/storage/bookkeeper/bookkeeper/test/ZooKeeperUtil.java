@@ -23,6 +23,7 @@
 
 package org.apache.pulsar.packages.management.storage.bookkeeper.bookkeeper.test;
 
+import java.nio.file.Files;
 import org.apache.bookkeeper.zookeeper.ZooKeeperClient;
 import org.apache.commons.io.FileUtils;
 import org.apache.zookeeper.CreateMode;
@@ -71,7 +72,7 @@ public class ZooKeeperUtil {
         LOG.debug("Running ZK server");
         // ServerStats.registerAsConcrete();
         ClientBase.setupTestEnv();
-        ZkTmpDir = File.createTempFile("zookeeper", "test");
+        ZkTmpDir = Files.createTempFile("zookeeper", "test").toFile();
         ZkTmpDir.delete();
         ZkTmpDir.mkdir();
 
