@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -218,7 +219,7 @@ public class LoadSimulationController {
      *            Arguments to create from.
      */
     public LoadSimulationController(final MainArguments arguments) throws Exception {
-        random = new Random();
+        random = new SecureRandom();
         clientPort = arguments.clientPort;
         cluster = arguments.cluster;
         clients = arguments.clientHostNames.split(",");

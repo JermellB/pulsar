@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.client.api;
 
+import java.security.SecureRandom;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
@@ -895,7 +896,7 @@ public class KeySharedSubscriptionTest extends ProducerConsumerBase {
         final String subName = "my-sub";
         final int messages = 1000;
         List<Message<Integer>> received = Collections.synchronizedList(new ArrayList<>(1000));
-        Random random = new Random();
+        Random random = new SecureRandom();
         @Cleanup
         PulsarClient client = PulsarClient.builder()
                 .serviceUrl(lookupUrl.toString())
