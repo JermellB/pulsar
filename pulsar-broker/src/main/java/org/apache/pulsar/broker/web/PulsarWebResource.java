@@ -19,6 +19,8 @@
 package org.apache.pulsar.broker.web;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.pulsar.broker.admin.AdminResource.POLICIES_READONLY_FLAG_PATH;
@@ -384,7 +386,7 @@ public abstract class PulsarWebResource {
             } else {
                 serviceNameResolver.updateServiceUrl(differentClusterData.getServiceUrl());
             }
-            URL webUrl = new URL(serviceNameResolver.resolveHostUri().toString());
+            URL webUrl = Urls.create(serviceNameResolver.resolveHostUri().toString(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             return UriBuilder.fromUri(uri.getRequestUri()).host(webUrl.getHost()).port(webUrl.getPort()).build();
         } catch (PulsarClientException.InvalidServiceURL exception) {
             throw new MalformedURLException(exception.getMessage());

@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.discovery.service.web;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static javax.ws.rs.core.Response.Status.BAD_GATEWAY;
 import static org.apache.pulsar.broker.resources.MetadataStoreCacheLoader.LOADBALANCE_BROKERS_ROOT;
 import static org.testng.Assert.assertEquals;
@@ -240,7 +242,7 @@ public class DiscoveryServiceWebTest extends BaseZKStarterTest{
         sslCtx.init(keyManagers, trustManagers, new SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sslCtx.getSocketFactory());
         try {
-            InputStream response = new URL(requestUrl).openStream();
+            InputStream response = Urls.create(requestUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
             fail("it should give unknown host exception as: discovery service redirects request to: "
                     + redirect_broker_host);
         } catch (Exception e) {

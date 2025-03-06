@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.broker.loadbalance;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
@@ -122,7 +124,7 @@ public class AntiAffinityNamespaceGroupTest {
         pulsar1.start();
 
         primaryHost = String.format("%s:%d", "localhost", pulsar1.getListenPortHTTP().get());
-        url1 = new URL("http://127.0.0.1" + ":" + pulsar1.getListenPortHTTP().get());
+        url1 = Urls.create("http://127.0.0.1" + ":" + pulsar1.getListenPortHTTP().get(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin1 = PulsarAdmin.builder().serviceHttpUrl(url1.toString()).build();
 
         // Start broker 2
@@ -142,7 +144,7 @@ public class AntiAffinityNamespaceGroupTest {
 
         secondaryHost = String.format("%s:%d", "localhost", pulsar2.getListenPortHTTP().get());
 
-        url2 = new URL("http://127.0.0.1" + ":" + config2.getWebServicePort().get());
+        url2 = Urls.create("http://127.0.0.1" + ":" + config2.getWebServicePort().get(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         admin2 = PulsarAdmin.builder().serviceHttpUrl(url2.toString()).build();
 
         primaryLoadManager = (ModularLoadManagerImpl) getField(pulsar1.getLoadManager().get(), "loadManager");

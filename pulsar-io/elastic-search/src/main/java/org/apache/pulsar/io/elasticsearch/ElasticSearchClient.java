@@ -20,6 +20,8 @@ package org.apache.pulsar.io.elasticsearch;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -588,7 +590,7 @@ public class ElasticSearchClient {
         String url = elasticSearchConfig.getElasticSearchUrl();
         return Arrays.stream(url.split(",")).map(host -> {
             try {
-                URL hostUrl = new URL(host);
+                URL hostUrl = Urls.create(host, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 return new HttpHost(hostUrl.getHost(), hostUrl.getPort(),
                         hostUrl.getProtocol());
             } catch (MalformedURLException e) {

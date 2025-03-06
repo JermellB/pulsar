@@ -18,6 +18,8 @@
  */
 package org.apache.pulsar.client.impl.auth;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -200,7 +202,7 @@ public class AuthenticationAthenz implements Authentication, EncodedAuthenticati
     private PrivateKey loadPrivateKey(String privateKeyURL) {
         PrivateKey privateKey = null;
         try {
-            URLConnection urlConnection = new URL(privateKeyURL).openConnection();
+            URLConnection urlConnection = Urls.create(privateKeyURL, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection();
             String protocol = urlConnection.getURL().getProtocol();
             if ("data".equals(protocol) && !APPLICATION_X_PEM_FILE.equals(urlConnection.getContentType())) {
                 throw new IllegalArgumentException(

@@ -21,6 +21,8 @@ package org.apache.pulsar.functions.worker;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.io.MoreFiles;
 import com.google.common.io.RecursiveDeleteOption;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -115,7 +117,7 @@ public class FunctionActioner {
                 packageFile = pkgLocation;
             } else {
                 if (isPkgUrlProvided && pkgLocation.startsWith(FILE)) {
-                    URL url = new URL(pkgLocation);
+                    URL url = Urls.create(pkgLocation, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     File pkgFile = new File(url.toURI());
                     packageFile = pkgFile.getAbsolutePath();
                 } else if (FunctionCommon.isFunctionCodeBuiltin(functionDetails)) {
