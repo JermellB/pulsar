@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.broker.admin.v3;
 
+import java.nio.file.Files;
 import org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest;
 import org.apache.pulsar.client.admin.PulsarAdminException;
 import org.apache.pulsar.packages.management.core.MockedPackagesStorageProvider;
@@ -56,7 +57,7 @@ public class PackagesApiTest extends MockedPulsarServiceBaseTest {
     public void testPackagesOperations() throws Exception {
         // create a temp file for testing
 
-        File file = File.createTempFile("package-api-test", ".package");
+        File file = Files.createTempFile("package-api-test", ".package").toFile();
 
         // testing upload api
         String packageName = "function://public/default/test@v1";
