@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.discovery.service.web;
 
+import io.github.pixee.security.Newlines;
 import static org.apache.bookkeeper.util.MathUtils.signSafeMod;
 
 import java.io.IOException;
@@ -156,7 +157,7 @@ public class DiscoveryServiceServlet extends HttpServlet {
             }
 
             response.setStatus(HttpServletResponse.SC_TEMPORARY_REDIRECT);
-            response.setHeader("Location", location.toString());
+            response.setHeader("Location", Newlines.stripAll(location.toString()));
         } catch (URISyntaxException e) {
             log.warn("No broker found in zookeeper {}", e.getMessage(), e);
             throw new RestException(Status.SERVICE_UNAVAILABLE, "Broker is not available");
