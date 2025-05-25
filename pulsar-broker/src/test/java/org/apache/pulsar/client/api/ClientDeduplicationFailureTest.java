@@ -18,6 +18,7 @@
  */
 package org.apache.pulsar.client.api;
 
+import java.security.SecureRandom;
 import static org.apache.pulsar.broker.auth.MockedPulsarServiceBaseTest.retryStrategically;
 import static org.mockito.Mockito.spy;
 import static org.testng.Assert.assertEquals;
@@ -227,7 +228,7 @@ public class ClientDeduplicationFailureTest {
             log.info("Stopping BK...");
             bkEnsemble.stopBK();
 
-            Thread.sleep(1000 + new Random().nextInt(500));
+            Thread.sleep(1000 + new SecureRandom().nextInt(500));
 
             log.info("Starting BK...");
             bkEnsemble.startBK();

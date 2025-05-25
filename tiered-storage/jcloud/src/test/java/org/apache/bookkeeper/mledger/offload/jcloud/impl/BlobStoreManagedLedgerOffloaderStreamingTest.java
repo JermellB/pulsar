@@ -18,6 +18,7 @@
  */
 package org.apache.bookkeeper.mledger.offload.jcloud.impl;
 
+import java.security.SecureRandom;
 import static org.mockito.AdditionalAnswers.delegatesTo;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
@@ -51,7 +52,7 @@ public class BlobStoreManagedLedgerOffloaderStreamingTest extends BlobStoreManag
 
     private static final Logger log = LoggerFactory.getLogger(BlobStoreManagedLedgerOffloaderStreamingTest.class);
     private TieredStorageConfiguration mockedConfig;
-    private static final Random random = new Random();
+    private static final Random random = new SecureRandom();
 
     BlobStoreManagedLedgerOffloaderStreamingTest() throws Exception {
         super();

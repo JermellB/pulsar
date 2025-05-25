@@ -19,6 +19,7 @@
 package org.apache.pulsar.broker.authentication;
 
 import static com.google.common.base.Preconditions.checkState;
+import java.security.SecureRandom;
 import static org.apache.pulsar.broker.web.AuthenticationFilter.AuthenticatedDataAttributeName;
 import static org.apache.pulsar.broker.web.AuthenticationFilter.AuthenticatedRoleAttributeName;
 import static org.apache.pulsar.common.sasl.SaslConstants.JAAS_CLIENT_ALLOWED_IDS;
@@ -95,7 +96,7 @@ public class AuthenticationProviderSasl implements AuthenticationProvider {
             }
         }
 
-        this.signer = new SaslRoleTokenSigner(Long.toString(new Random().nextLong()).getBytes());
+        this.signer = new SaslRoleTokenSigner(Long.toString(new SecureRandom().nextLong()).getBytes());
     }
 
     @Override
