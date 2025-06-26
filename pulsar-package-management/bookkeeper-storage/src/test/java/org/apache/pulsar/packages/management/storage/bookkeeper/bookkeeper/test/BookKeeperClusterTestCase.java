@@ -24,6 +24,7 @@
 package org.apache.pulsar.packages.management.storage.bookkeeper.bookkeeper.test;
 
 import io.netty.buffer.ByteBufAllocator;
+import java.nio.file.Files;
 import org.apache.bookkeeper.bookie.Bookie;
 import org.apache.bookkeeper.bookie.BookieException;
 import org.apache.bookkeeper.bookie.storage.ldb.DbLedgerStorage;
@@ -192,7 +193,7 @@ public abstract class BookKeeperClusterTestCase {
     }
 
     protected ServerConfiguration newServerConfiguration() throws Exception {
-        File f = File.createTempFile("bookie", "test");
+        File f = Files.createTempFile("bookie", "test").toFile();
         tmpDirs.add(f);
         f.delete();
         f.mkdir();

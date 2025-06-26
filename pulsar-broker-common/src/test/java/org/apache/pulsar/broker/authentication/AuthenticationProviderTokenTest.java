@@ -233,7 +233,7 @@ public class AuthenticationProviderTokenTest {
     public void testAuthSecretKeyFromFile() throws Exception {
         SecretKey secretKey = AuthTokenUtils.createSecretKey(SignatureAlgorithm.HS256);
 
-        File secretKeyFile = File.createTempFile("pulsar-test-secret-key-", ".key");
+        File secretKeyFile = Files.createTempFile("pulsar-test-secret-key-", ".key").toFile();
         secretKeyFile.deleteOnExit();
         Files.write(Paths.get(secretKeyFile.toString()), secretKey.getEncoded());
 
@@ -268,7 +268,7 @@ public class AuthenticationProviderTokenTest {
     public void testAuthSecretKeyFromValidFile() throws Exception {
         SecretKey secretKey = AuthTokenUtils.createSecretKey(SignatureAlgorithm.HS256);
 
-        File secretKeyFile = File.createTempFile("pulsar-test-secret-key-valid", ".key");
+        File secretKeyFile = Files.createTempFile("pulsar-test-secret-key-valid", ".key").toFile();
         secretKeyFile.deleteOnExit();
         Files.write(Paths.get(secretKeyFile.toString()), secretKey.getEncoded());
 
@@ -599,7 +599,7 @@ public class AuthenticationProviderTokenTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testInitializeWhenSecretKeyFilePathIfNotExist() throws IOException {
-        File secretKeyFile = File.createTempFile("secret_key_file_not_exist", ".key");
+        File secretKeyFile = Files.createTempFile("secret_key_file_not_exist", ".key").toFile();
         assertTrue(secretKeyFile.delete());
         assertFalse(secretKeyFile.exists());
 
@@ -823,7 +823,7 @@ public class AuthenticationProviderTokenTest {
         AuthenticationProviderToken provider = new AuthenticationProviderToken();
         SecretKey secretKey = AuthTokenUtils.createSecretKey(SignatureAlgorithm.HS256);
 
-        File secretKeyFile = File.createTempFile("pulsar-test-secret-key-valid", ".key");
+        File secretKeyFile = Files.createTempFile("pulsar-test-secret-key-valid", ".key").toFile();
         secretKeyFile.deleteOnExit();
         Files.write(Paths.get(secretKeyFile.toString()), secretKey.getEncoded());
 

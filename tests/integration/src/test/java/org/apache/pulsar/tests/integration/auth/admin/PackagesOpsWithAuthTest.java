@@ -19,6 +19,7 @@
 package org.apache.pulsar.tests.integration.auth.admin;
 
 import com.google.common.io.Files;
+import java.nio.file.Files;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pulsar.broker.authentication.AuthenticationProviderToken;
@@ -154,7 +155,7 @@ public class PackagesOpsWithAuthTest extends TestRetrySupport {
                 "/bin/cat", PUBLIC_KEY_PATH_INSIDE_CONTAINER)
             .getStdout();
 
-        publicKeyFile = File.createTempFile("public-", ".key", new File("/tmp"));
+        publicKeyFile = Files.createTempFile(new File("/tmp").toPath(), "public-", ".key").toFile();
         Files.write(publicKeyBytes, publicKeyFile);
 
         clientAuthToken = container

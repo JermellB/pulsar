@@ -19,6 +19,7 @@
 package org.apache.pulsar.broker.zookeeper;
 
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -211,7 +212,7 @@ public class ClusterMetadataSetupTest {
         public ZookeeperServerTest(int zkPort) throws IOException {
             this.zkPort = zkPort;
             this.hostPort = "127.0.0.1:" + zkPort;
-            this.zkTmpDir = File.createTempFile("zookeeper", "test");
+            this.zkTmpDir = Files.createTempFile("zookeeper", "test").toFile();
             log.info("**** Start GZK on {} ****", zkTmpDir);
             if (!zkTmpDir.delete() || !zkTmpDir.mkdir()) {
                 throw new IOException("Couldn't create zk directory " + zkTmpDir);

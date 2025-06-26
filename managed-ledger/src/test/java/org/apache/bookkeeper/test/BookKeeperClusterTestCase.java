@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -208,7 +209,7 @@ public abstract class BookKeeperClusterTestCase {
     }
 
     protected ServerConfiguration newServerConfiguration(String ledgerRootPath) throws Exception {
-        File f = File.createTempFile("bookie", "test");
+        File f = Files.createTempFile("bookie", "test").toFile();
         tmpDirs.add(f);
         f.delete();
         f.mkdir();

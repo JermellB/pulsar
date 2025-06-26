@@ -26,6 +26,7 @@ package org.apache.bookkeeper.test;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.bookkeeper.zookeeper.ZooKeeperClient;
@@ -69,7 +70,7 @@ public class ZooKeeperUtil {
         LOG.debug("Running ZK server");
         // ServerStats.registerAsConcrete();
         ClientBase.setupTestEnv();
-        ZkTmpDir = File.createTempFile("zookeeper", "test");
+        ZkTmpDir = Files.createTempFile("zookeeper", "test").toFile();
         ZkTmpDir.delete();
         ZkTmpDir.mkdir();
 
@@ -98,7 +99,7 @@ public class ZooKeeperUtil {
         LOG.debug("Running ZK server");
         // ServerStats.registerAsConcrete();
         ClientBase.setupTestEnv();
-        ZkTmpDir = File.createTempFile("zookeeper", "test");
+        ZkTmpDir = Files.createTempFile("zookeeper", "test").toFile();
         ZkTmpDir.delete();
         ZkTmpDir.mkdir();
 
